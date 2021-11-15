@@ -5,7 +5,6 @@ namespace Sync
     public class DatabaseOptions
     {
         public string ConnectionString { get; set; }
-        public string MasterDatabase { get; set; }
-        public string SlaveDatabase { get; set; }
+        public List<string> SlaveDatabases { get; set; }
     }
 }

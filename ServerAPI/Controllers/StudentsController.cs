@@ -16,12 +16,11 @@ namespace ServerAPI.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IRepository<Student> repository;
-        private readonly MessageBusService messageBus;
-        public StudentsController(IRepository<Student> repository, MessageBusService messageBus)
+        private readonly SyncService<Student> syncService;
+        public StudentsController(IRepository<Student> repository, SyncService<Student> syncService)
         {
+            this.syncService = syncService;
             this.repository = repository;
-            this.messageBus = messageBus;
-            this.messageBus.Connect("localhost:6379");
         }
 
         [HttpGet]
@@ -76,7 +75,7 @@ namespace ServerAPI.Controllers
 
             if (await repository.AddEntity(student))
             {
-                await messageBus.Publish(new SyncMessage { JsonData = JsonSerializer.Serialize(student), MessageType = "Student", Method = Methods.Upsert });
+                await syncService.Upsert(student);
                 return Ok();
             }
             else
@@ -89,7 +88,11 @@ namespace ServerAPI.Controllers
         {
 
             if (await repository.DeleteEntity(id))
+            {
+                var student = await repository.GetEntity(id);
+                await syncService.Delete(student);
                 return Ok();
+            }
             else
                 return BadRequest();
         }

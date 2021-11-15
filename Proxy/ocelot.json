@@ -6,11 +6,11 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 9001
+          "Port": 9002
         },
         {
           "Host": "localhost",
-          "Port": 9002
+          "Port": 9003
         }
       ],
       "UpstreamPathTemplate": "/{url}",
@@ -30,10 +30,6 @@
         {
           "Host": "localhost",
           "Port": 9001
-        },
-        {
-          "Host": "localhost",
-          "Port": 9002
         }
       ],
       "UpstreamPathTemplate": "/{url}",

@@ -10,6 +10,7 @@ namespace Persistence.Abstractions
         public Task<List<T>> GetEntities();
         public Task<T> GetEntity(Guid id);
         public Task<bool> AddEntity(T student);
+        public Task<bool> UpsertEntity(T entity);
         public Task<bool> DeleteEntity(Guid id);
         public Task<bool> DeleteEntities(List<Guid> ids);
 
